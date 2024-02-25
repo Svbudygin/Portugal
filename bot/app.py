@@ -7,13 +7,12 @@ from aiogram import Bot, Dispatcher, executor, types
 
 from buttons.buttons import calender_buttons, change_date_by_months
 from config import TG_token
+from parsing.imovirtual.main import pars
 
 months = ['Январь', "Февраль", "Март", "Апрель", "Май", "Июнь",
           "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
 bot = Bot(TG_token)
 dp = Dispatcher(bot, storage=MemoryStorage())
-
-global_dict = {}
 
 
 class Form(StatesGroup):
@@ -24,7 +23,7 @@ class Form(StatesGroup):
 
 
 @dp.message_handler(commands=['start'])
-async def process_start_command(message: types.Message, state: FSMContext):
+async def process_start_command(message: types.Message):
     markup = InlineKeyboardMarkup(row_width=1)
     button1 = InlineKeyboardButton("Выбрать жильё", callback_data="quiz")
     markup.add(button1)
@@ -32,7 +31,7 @@ async def process_start_command(message: types.Message, state: FSMContext):
 
 
 @dp.callback_query_handler(lambda query: query.data == 'quiz')
-async def callback_giveaway(callback_query: types.CallbackQuery, state: FSMContext):
+async def callback_giveaway(callback_query: types.CallbackQuery):
     await bot.send_message(chat_id=callback_query.message.chat.id, text="Введите город")
     await Form.city_state.set()
 
@@ -115,8 +114,7 @@ async def callback(call, state: FSMContext):
         await state.finish()
 
 
-def pars(*args):
-    print(args)
+
 
 
 if __name__ == '__main__':
