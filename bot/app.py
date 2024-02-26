@@ -6,9 +6,9 @@ from datetime import date
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.utils.exceptions import MessageToDeleteNotFound
 
-from buttons import calender_buttons, change_date_by_months
+from bot.buttons.buttons import calender_buttons, change_date_by_months
 from config import TG_token
-from main import pars
+from parsing.imovirtual.main import pars
 
 months = ['Январь', "Февраль", "Март", "Апрель", "Май", "Июнь",
           "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
@@ -19,7 +19,8 @@ dp = Dispatcher(bot, storage=MemoryStorage())
 class Form(StatesGroup):
     city_state = State()
     area_state = State()
-    price_state = State()
+    price_min_state = State()
+    price_max_state = State()
     from_date_state = State()
     to_date_state = State()
 
@@ -35,7 +36,7 @@ async def process_start_command(message: types.Message):
 
 @dp.callback_query_handler(lambda query: query.data == 'quiz')
 async def callback_giveaway(callback_query: types.CallbackQuery):
-    await bot.send_message(chat_id=callback_query.message.chat.id, text="🧭 Введите город 🧭")
+    await bot.send_message(chat_id=callback_query.message.chat.id, text="🌇 Введите город 🌇")
     await Form.city_state.set()
 
 
@@ -53,35 +54,36 @@ async def process_name1(message: types.Message, state: FSMContext):
     area = message.text
     async with state.proxy() as data:
         data['area'] = area
-    # await state.finish()
-    await message.answer(f"💶 Напишите диапозон цен в € в формате \"min-max\" 💶")
-    await Form.price_state.set()
+    await message.answer(f"💶 Напишите минимальную цену в € в месяц 💶")
+    await Form.price_min_state.set()
 
 
-@dp.message_handler(state=Form.price_state)
-async def process_name1(message: types.Message, state: FSMContext):
-    price = message.text
-    if '-' in price and price.count('-') == 1:
-        price = price.split('-')
+@dp.message_handler(state=Form.price_min_state)
+async def min_price(message: types.Message, state: FSMContext):
+    try:
+        price = int(message.text)
+    except ValueError:
+        price = '-'
+    async with state.proxy() as data:
+        data['min_price'] = price
+    await message.answer(f"💶 Напишите максимальную цену в € в месяц 💶")
+    await Form.price_max_state.set()
+
+
+@dp.message_handler(state=Form.price_max_state)
+async def max_price(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
         try:
-            min_price = int(price[0])
-            max_price = int(price[1])
-            if max_price >= min_price:
-                async with state.proxy() as data:
-                    data['min_price'] = min_price
-                    data['max_price'] = max_price
-                today = date.today()
-                markup = calender_buttons(today, typefr_to="fr")
-                await message.answer(f"🕒 Выберите дату заезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
-                                     reply_markup=markup)
-                await Form.from_date_state.set()
-            else:
-                await message.answer(f"Ваш диапозон не верен. Диапозон цен в € в формате \"min-max\"")
+            price = int(message.text)
         except ValueError:
-            await message.answer(f"Введите числа! Диапозон цен в € в формате \"min-max\"")
-    else:
-        await message.answer(f"Введите в правильном формате! Диапозон цен в € в формате \"min-max\"")
-    # await state.finish()
+            price = '-'
+        price = price if price != '-' and data['min_price'] != '-' and price > data['min_price'] else '-'
+        data['max_price'] = price
+    today = date.today()
+    markup = calender_buttons(today, typefr_to="fr")
+    await message.answer(f"🕒 Выберите дату заезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
+                         reply_markup=markup)
+    await Form.from_date_state.set()
 
 
 @dp.callback_query_handler(
@@ -93,8 +95,9 @@ async def callback(call, state: FSMContext):
         today = change_date_by_months(today, 1 if call.data.startswith('ne') else -1)
         markup = calender_buttons(today, typefr_to='fr')
         await call.message.delete()
-        await call.message.answer(f"🕒 Выберита дату заезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
-                                  reply_markup=markup)
+        await call.message.answer(
+            f"🕒 Выберита дату заезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
+            reply_markup=markup)
         await Form.from_date_state.set()
     elif call.data.startswith('dtfr'):
         today = str(call.data)[4:]
@@ -105,8 +108,9 @@ async def callback(call, state: FSMContext):
         await call.message.answer(f'From {today}')
         today = date.today()
         markup = calender_buttons(today, typefr_to="to")
-        await call.message.answer(f"🕒 Выберита дату выезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
-                                  reply_markup=markup)
+        await call.message.answer(
+            f"🕒 Выберита дату выезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
+            reply_markup=markup)
         await Form.to_date_state.set()
 
 
@@ -118,9 +122,10 @@ async def callback(call, state: FSMContext):
         today = change_date_by_months(today, 1 if call.data.startswith('ne') else -1)
         markup = calender_buttons(today, typefr_to='to')
         await call.message.delete()
-        await call.message.answer(f"🕒 Выберита дату заезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
-                                  reply_markup=markup)
-        # await Form.to_date_state.set()
+        await call.message.answer(
+            f"🕒 Выберита дату заезда 🕒\nТекущая дата: {months[today.month - 1]} {today.year} Года",
+            reply_markup=markup)
+        await Form.to_date_state.set()
     elif call.data.startswith('dtto'):
         today = str(call.data)[4:]
         await call.message.delete()
@@ -136,8 +141,8 @@ async def callback(call, state: FSMContext):
             area = data['area']
             min_price = data['min_price']
             max_price = data['max_price']
-
-        pars(from_date, to_date, city, area, min_price, max_price)
+        print(from_date, to_date, city, area, min_price, max_price)
+        # pars(from_date, to_date, city, area, min_price, max_price)
         await state.finish()
 
 
