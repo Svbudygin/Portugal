@@ -1,0 +1,29 @@
+from aiogram.utils.exceptions import MessageToDeleteNotFound
+from aiogram.dispatcher.filters.state import State, StatesGroup
+
+from app import bot
+
+message_delete = {}
+months = ['Январь', "Февраль", "Март", "Апрель", "Май", "Июнь",
+          "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+
+async def add_del_message(message):
+    message_delete[message.chat.id] = message_delete.get(message.chat.id, set()) | {message.message_id}
+
+
+async def del_messages(id):
+    for mes in message_delete.get(id, set()):
+        try:
+            await bot.delete_message(id, mes)
+        except MessageToDeleteNotFound:
+            pass
+    message_delete.pop(id, None)
+
+
+class Form(StatesGroup):
+    city_state = State()
+    area_state = State()
+    price_min_state = State()
+    price_max_state = State()
+    from_date_state = State()
+    to_date_state = State()
