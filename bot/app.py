@@ -1,10 +1,4 @@
-from aiogram.dispatcher import FSMContext
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from datetime import date
-from bot.buttons.buttons import calender_buttons, change_date_by_months
 from utils import *
-
-
 
 
 @dp.message_handler(commands=['start'])
