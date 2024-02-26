@@ -1,15 +1,10 @@
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from datetime import date
-from aiogram import Bot, Dispatcher, executor, types
 from bot.buttons.buttons import calender_buttons, change_date_by_months
-from config import TG_token
 from utils import *
 
 
-bot = Bot(TG_token)
-dp = Dispatcher(bot, storage=MemoryStorage())
 
 
 @dp.message_handler(commands=['start'])

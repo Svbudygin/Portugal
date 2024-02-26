@@ -1,7 +1,11 @@
 from aiogram.utils.exceptions import MessageToDeleteNotFound
 from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from config import TG_token
+from aiogram import Bot, Dispatcher, executor, types
 
-from app import bot
+bot = Bot(TG_token)
+dp = Dispatcher(bot, storage=MemoryStorage())
 
 message_delete = {}
 months = ['Январь', "Февраль", "Март", "Апрель", "Май", "Июнь",
