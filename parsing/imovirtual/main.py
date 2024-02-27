@@ -1,53 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 
-cookies = {
-    'laquesisff': 'gre-12226#rer-11#rer-181#rer-182',
-    'optimizelyEndUserId': 'oeu1708958602070r0.28070168079135316',
-    '_gid': 'GA1.2.1805838957.1708958603',
-    'OptanonAlertBoxClosed': '2024-02-26T14:43:25.180Z',
-    'eupubconsent-v2': 'CP6lKcgP6lKcgAcABBENApE8AP_gAAAAAAYgg1NX_H_fbX9j8Xp0aft0eY1f99j7rsQxBhfJk-4FyLvW_JwX32EzNA16pqYKmRIEu3bBIQFlHIDUDUigaogVrTDMYkGMgTNKJ6BEiFMRc2dYCF5vmQFD-QKY5tpvd3d52T-9_dv83dzyz8Vnn3Opfue1WJCdA5cgAAAAAAAAAAAAAAAQAAAAAAAAAQAIAAAAAAAAAAAAAAAAAAAAA_cBfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAABgSCEAAgABcAFAAVAA4AB4AEEALwAwgBkAGoAPAAiABMACqAGYAN4AegA_ACEgEMARIAjgBLACaAGAAMOAZQBlgDZAHPAO4A74B7AHxAPsA_YB_gIAARSAi4CMAEagJEAksBPwFBgKgAq4BcwC9AGKANEAbQA3ABxIEegSIAnYBQ4CjwFIgLYAXIAu8BeYDBgGGwMjAyQBk4DMwGcwNXA1kBt4DcwG6gOCAcmA5cCbgQAyAA4AEgARwCDgEcAJoAX0BKwCbQFIAK5AWEAsQBbgC8gF_gMQAYsAyEBowDUwG0ANuAboEGocAuAARAA4ADwALgAkAB-AEcAKAAaABHADkAIBAQcBCACIgEcAJoAVAA44B0gErAJiATKAm0BScCuQK7AWIAtQBbgC6AF_gMEAYgAxYBkIDJgGjANTAa8A2gBtgDboG5gboA48By0DnQOfAm2EGodBPAAXABQAFQAOAAggBcAGoAPAAiABMACrAFwAXQAxABmADeAHoAP0AhgCJAEsAJoAUYAwABhgDKAGiANkAc8A7gDvAHtAPsA_QB_wEUARiAjoCSwE_AUGAqICrgFiALnAXkBegDFAG0ANwAcQA6gB9gEXwI9AkQBMgCdgFDwKPApABTQCrAFiwLYAtkBboC4AFyALtAXeAvMBfQDBgGGgMegZGBkgDJwGVAMsAZmAzkBogDTYGrgawA28BuoDiwHJgOXAm4BN4CcJAAsAAgAB4AaAByAEcALEAX0BNoCkwFcgLEAXkAwQBngDRgGpgNsAbcA3QBywDnwJtkIEYACwAKAAuABiADUAJgAVQAuABiADeAHoARwAwABzwDuAO8Af4BFACUgFBgKiAq4BcwDFAG0AOoAj0BTQCrAFigLRAXAAuQBkYDJwGcgNEJQJQAEAALAAoAByAGAAYgA8ACIAEwAKoAXAAxQCGAIkARwAowBgADZAHeAPyAqICrgFzAMUAdQBEwCL4EegSIAo8BTQCxQFsALzgZGBkgDJwGcgNYAbeBNwCcJIAmABcAI4A7gCAAEHAI4AVABKwCYgE2gKTAW4Av8BiwDLAGeAN0AcsBNsoAjAAUABcAEgALgAjgBbAEcAOQAdwA-wCAAEHALEAXUA14B2wD_gJiATaAqQBXYC3AF0ALyAYIAxYBkwDPIGiAaMA1MBr0DcwN0AcsBNsCcJSB4AAuACgAKgAcABBADAANQAeABEACYAFUAMQAZgA_QCGAIkAUYAwABlADRAGyAOcAd8A_AD9AIsARiAjoCSgFBgKiAq4BcwC8gGKANoAbgA6gB7QD7AImARfAj0CRAE7AKHAUgApoBVgCxQFsALgAXIAu0BeYC-gGGwMjAyQBk4DLAGcwNYA1kBt4DdQHBAOTAm8WgFAA1AEcAMAAdwBegD7AKaAVYAzMCbhYAUAMsAjgCPQExAJtAVyA0YBqYDdAHLAAAA.f_wAAAAAAAAA',
-    '_gcl_au': '1.1.1338987650.1708958605',
-    'laquesis': '',
-    'laquesissu': '315@my_account|0',
-    'PHPSESSID': 'c870bcfftrdvlgg905hl22atou',
-    'mobile_default': 'desktop',
-    'ninja_user_status': 'unlogged',
-    'observed5_id_clipboard': '65dcd3bdea49d',
-    'observed5_sec_clipboard': 'nHnUdVJaD9UzapHAkwM0eft4kr7OPSMCQSn8JN4yOtM%3D',
-    'lqstatus': '1708971965||||',
-    'lastLoc': 'undefined',
-    'lastCatType': '102',
-    'lang': 'pt',
-    'dfp_user_id': '92963c23-0024-47ed-987b-9b88f605e845',
-    'OptanonConsent': 'isGpcEnabled=0&datestamp=Mon+Feb+26+2024+21%3A15%3A19+GMT%2B0300+(%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C+%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%D0%BD%D0%BE%D0%B5+%D0%B2%D1%80%D0%B5%D0%BC%D1%8F)&version=202401.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&consentId=26f40e1b-4a3b-46e8-9be2-3996dc9a6fc6&interactionCount=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1%2Cgad%3A1&geolocation=%3B&AwaitingReconsent=false',
-    '_ga': 'GA1.1.2145139583.1708958603',
-    '_ga_2GM5QEJ1H6': 'GS1.1.1708970946.2.1.1708971319.0.0.0',
-    '_ga_1V7MK8JKRP': 'GS1.1.1708970946.2.1.1708971319.0.0.0',
-    'cto_bundle': 'GYG9eV83M3p0TzY4SmMwVEJBbjB1NHhSc1J5bWVaYjlCSEpDTkNqaDUzbW1yaHFnJTJGNW9jYmF0R2ZSWFdCaXUweU5RS2xWaXRPR0w5eEhnRjJXVUY2MmtFZFRmSlhiODBOVWhnVXl0VU0xMHJnanlSYWxxcyUyQiUyQkNzJTJCeVQ1SlZCNHRZWXdwNVVwb1ZBeGpWazVFeWxpWXBYTXFzOXltQmhXNzRPRXVSYXc1MWVyVWpwNCUzRA',
-    'onap': 'f8afab3dd56x1e9ac52a-2-18de69b2ac0x4844f459-39-1708973197',
-}
-headers = {
-    'authority': 'www.imovirtual.com',
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-    'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-    'cache-control': 'max-age=0',
-    # 'cookie': 'laquesisff=gre-12226#rer-11#rer-181#rer-182; optimizelyEndUserId=oeu1708958602070r0.28070168079135316; _gid=GA1.2.1805838957.1708958603; OptanonAlertBoxClosed=2024-02-26T14:43:25.180Z; eupubconsent-v2=CP6lKcgP6lKcgAcABBENApE8AP_gAAAAAAYgg1NX_H_fbX9j8Xp0aft0eY1f99j7rsQxBhfJk-4FyLvW_JwX32EzNA16pqYKmRIEu3bBIQFlHIDUDUigaogVrTDMYkGMgTNKJ6BEiFMRc2dYCF5vmQFD-QKY5tpvd3d52T-9_dv83dzyz8Vnn3Opfue1WJCdA5cgAAAAAAAAAAAAAAAQAAAAAAAAAQAIAAAAAAAAAAAAAAAAAAAAA_cBfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAABgSCEAAgABcAFAAVAA4AB4AEEALwAwgBkAGoAPAAiABMACqAGYAN4AegA_ACEgEMARIAjgBLACaAGAAMOAZQBlgDZAHPAO4A74B7AHxAPsA_YB_gIAARSAi4CMAEagJEAksBPwFBgKgAq4BcwC9AGKANEAbQA3ABxIEegSIAnYBQ4CjwFIgLYAXIAu8BeYDBgGGwMjAyQBk4DMwGcwNXA1kBt4DcwG6gOCAcmA5cCbgQAyAA4AEgARwCDgEcAJoAX0BKwCbQFIAK5AWEAsQBbgC8gF_gMQAYsAyEBowDUwG0ANuAboEGocAuAARAA4ADwALgAkAB-AEcAKAAaABHADkAIBAQcBCACIgEcAJoAVAA44B0gErAJiATKAm0BScCuQK7AWIAtQBbgC6AF_gMEAYgAxYBkIDJgGjANTAa8A2gBtgDboG5gboA48By0DnQOfAm2EGodBPAAXABQAFQAOAAggBcAGoAPAAiABMACrAFwAXQAxABmADeAHoAP0AhgCJAEsAJoAUYAwABhgDKAGiANkAc8A7gDvAHtAPsA_QB_wEUARiAjoCSwE_AUGAqICrgFiALnAXkBegDFAG0ANwAcQA6gB9gEXwI9AkQBMgCdgFDwKPApABTQCrAFiwLYAtkBboC4AFyALtAXeAvMBfQDBgGGgMegZGBkgDJwGVAMsAZmAzkBogDTYGrgawA28BuoDiwHJgOXAm4BN4CcJAAsAAgAB4AaAByAEcALEAX0BNoCkwFcgLEAXkAwQBngDRgGpgNsAbcA3QBywDnwJtkIEYACwAKAAuABiADUAJgAVQAuABiADeAHoARwAwABzwDuAO8Af4BFACUgFBgKiAq4BcwDFAG0AOoAj0BTQCrAFigLRAXAAuQBkYDJwGcgNEJQJQAEAALAAoAByAGAAYgA8ACIAEwAKoAXAAxQCGAIkARwAowBgADZAHeAPyAqICrgFzAMUAdQBEwCL4EegSIAo8BTQCxQFsALzgZGBkgDJwGcgNYAbeBNwCcJIAmABcAI4A7gCAAEHAI4AVABKwCYgE2gKTAW4Av8BiwDLAGeAN0AcsBNsoAjAAUABcAEgALgAjgBbAEcAOQAdwA-wCAAEHALEAXUA14B2wD_gJiATaAqQBXYC3AF0ALyAYIAxYBkwDPIGiAaMA1MBr0DcwN0AcsBNsCcJSB4AAuACgAKgAcABBADAANQAeABEACYAFUAMQAZgA_QCGAIkAUYAwABlADRAGyAOcAd8A_AD9AIsARiAjoCSgFBgKiAq4BcwC8gGKANoAbgA6gB7QD7AImARfAj0CRAE7AKHAUgApoBVgCxQFsALgAXIAu0BeYC-gGGwMjAyQBk4DLAGcwNYA1kBt4DdQHBAOTAm8WgFAA1AEcAMAAdwBegD7AKaAVYAzMCbhYAUAMsAjgCPQExAJtAVyA0YBqYDdAHLAAAA.f_wAAAAAAAAA; _gcl_au=1.1.1338987650.1708958605; laquesis=; laquesissu=315@my_account|0; PHPSESSID=c870bcfftrdvlgg905hl22atou; mobile_default=desktop; ninja_user_status=unlogged; observed5_id_clipboard=65dcd3bdea49d; observed5_sec_clipboard=nHnUdVJaD9UzapHAkwM0eft4kr7OPSMCQSn8JN4yOtM%3D; lqstatus=1708971965||||; lastLoc=undefined; lastCatType=102; lang=pt; dfp_user_id=92963c23-0024-47ed-987b-9b88f605e845; OptanonConsent=isGpcEnabled=0&datestamp=Mon+Feb+26+2024+21%3A15%3A19+GMT%2B0300+(%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C+%D1%81%D1%82%D0%B0%D0%BD%D0%B4%D0%B0%D1%80%D1%82%D0%BD%D0%BE%D0%B5+%D0%B2%D1%80%D0%B5%D0%BC%D1%8F)&version=202401.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&consentId=26f40e1b-4a3b-46e8-9be2-3996dc9a6fc6&interactionCount=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A1%2CC0003%3A1%2CC0004%3A1%2Cgad%3A1&geolocation=%3B&AwaitingReconsent=false; _ga=GA1.1.2145139583.1708958603; _ga_2GM5QEJ1H6=GS1.1.1708970946.2.1.1708971319.0.0.0; _ga_1V7MK8JKRP=GS1.1.1708970946.2.1.1708971319.0.0.0; cto_bundle=GYG9eV83M3p0TzY4SmMwVEJBbjB1NHhSc1J5bWVaYjlCSEpDTkNqaDUzbW1yaHFnJTJGNW9jYmF0R2ZSWFdCaXUweU5RS2xWaXRPR0w5eEhnRjJXVUY2MmtFZFRmSlhiODBOVWhnVXl0VU0xMHJnanlSYWxxcyUyQiUyQkNzJTJCeVQ1SlZCNHRZWXdwNVVwb1ZBeGpWazVFeWxpWXBYTXFzOXltQmhXNzRPRXVSYXc1MWVyVWpwNCUzRA; onap=f8afab3dd56x1e9ac52a-2-18de69b2ac0x4844f459-39-1708973197',
-    'referer': 'https://www.imovirtual.com/arrendar/apartamento/',
-    'sec-ch-ua': '"Not A(Brand";v="99", "Google Chrome";v="121", "Chromium";v="121"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'sec-fetch-dest': 'document',
-    'sec-fetch-mode': 'navigate',
-    'sec-fetch-site': 'same-origin',
-    'sec-fetch-user': '?1',
-    'upgrade-insecure-requests': '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
-}
+from config import cookies, headers
 
 
-def pars(*args):
-    URL = 'https://www.imovirtual.com/pt/anuncio/apartamento-t0-em-paranhos-ID1e0c3.html#71766add10'
+def pars_exect_flat(*args):
+    # URL = 'https://www.imovirtual.com/pt/anuncio/apartamento-t0-em-paranhos-ID1e0c3.html#71766add10'
+    URL = 'https://www.imovirtual.com/pt/anuncio/apartamento-t1-perto-da-praia-com-vista-mar-e-garagem-em-quarteira-ID1bcgB.html#ab04badaa0'
     response = requests.get(
         URL,
         cookies=cookies,
@@ -55,17 +14,36 @@ def pars(*args):
     )
 
     html = BeautifulSoup(response.text, 'lxml')
+    name = html.find('header', class_='css-sos826 efcnut31').find('h1', class_="css-1wnihf5 efcnut38").text
     main_data = html.find('div', class_="css-c078ty e17tijfc0")
     data = main_data.find_all('div', class_="css-1v52owc e1qm3vsd0")
-    price = html.find('header',class_='css-sos826 efcnut31').find('strong').text
+    price = html.find('header', class_='css-sos826 efcnut31').find('strong').text
     data_for_bot = {}
     for e in data:
         title = e.find('div', class_="css-o4i8bk e1qm3vsd1").text
         text = e.find('div', class_='css-1ytkscc e1qm3vsd3').text
-        data_for_bot[title]=text
-    data_for_bot['price']=price
+        data_for_bot[title] = text
+    data_for_bot['price'] = price
+    data_for_bot['name'] = name
     print(data_for_bot)
 
 
+def pars(*args):
+    URL = 'https://www.imovirtual.com/comprar/apartamento/'
+    response = requests.get(
+        URL,
+        cookies=cookies,
+        headers=headers,
+    )
+
+    html = BeautifulSoup(response.text, 'lxml')
+    name = list(map(lambda x: x.get('data-url'),
+                    html.find('div', class_="row section-listing__row").find('div',
+                                                                             class_="col-md-content section-listing__row-content").find_all(
+                        'article')))
+    print(name)
+
+
 if __name__ == "__main__":
-    pars()
+    pass
+pars()
