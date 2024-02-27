@@ -36,6 +36,17 @@ async def area(message: types.Message, state: FSMContext):
     area = message.text
     async with state.proxy() as data:
         data['area'] = area
+    message = await message.answer(f"🏡 Укажите тип квартиры: ⛺")
+    await add_del_message(message)
+    await Form.type_state.set()
+
+
+@dp.message_handler(state=Form.type_state)
+async def area(message: types.Message, state: FSMContext):
+    await add_del_message(message)
+    type = message.text
+    async with state.proxy() as data:
+        data['type'] = type
     message = await message.answer(f"💶 Напишите минимальную цену в € в месяц 💶")
     await add_del_message(message)
     await Form.price_min_state.set()

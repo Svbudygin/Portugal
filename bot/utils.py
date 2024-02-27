@@ -32,6 +32,7 @@ async def del_messages(id):
 class Form(StatesGroup):
     city_state = State()
     area_state = State()
+    type_state = State()
     price_min_state = State()
     price_max_state = State()
     from_date_state = State()
