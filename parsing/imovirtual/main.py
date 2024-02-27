@@ -30,23 +30,19 @@ def pars_exact_flat(url: str) -> dict:
     data_for_bot['price'] = price
     data_for_bot['name'] = name
     data_for_bot['photo'] = photo_link
+    print(data_for_bot)
     return data_for_bot
 
 
 def pars(URL):
     # URL = 'https://www.imovirtual.com/arrendar/'
 
-    response = requests.get(
-        URL,
-        cookies=cookies,
-        headers=headers,
-    )
+    response = requests.get(URL, cookies=cookies, headers=headers)
 
     html = BeautifulSoup(response.text, 'lxml')
     list_with_all = list(map(lambda x: x.get('data-url'),
-                             html.find('div',
-                                       class_="row section-listing__row").find('div',
-                                                                               class_="col-md-content section-listing__row-content").find_all(
+                             html.find('div', class_="row section-listing__row").find('div',
+                                                                                      class_="col-md-content section-listing__row-content").find_all(
                                  'article')))
     return list_with_all
 

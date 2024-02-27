@@ -1,3 +1,4 @@
+from parsing.imovirtual.main import pars_exact_flat, pars
 from utils import *
 
 
@@ -134,6 +135,29 @@ async def callback_calendar_to(call, state: FSMContext):
         # pars(from_date, to_date, city, area, min_price, max_price)
         await del_messages(call.message.chat.id)
         await state.finish()
+
+# @dp.message_handler(commands=['get'])
+# async def process_start_command(message: types.Message):
+#     for i in pars('https://www.imovirtual.com/arrendar/'):
+#         data_for_bot = pars_exact_flat(i)
+#         markup = InlineKeyboardMarkup(row_width=1)
+#         markup.add(InlineKeyboardButton("Подробнее", url=i))
+#         text=f"{data_for_bot.get('name')}\nТип: {data_for_bot.get('Condição')}\nКомнаты: {data_for_bot.get('Condição')}\nПлощадь: {data_for_bot.get('Área útil (m²)')}\nСтоимость: {data_for_bot.get('price')}\nГород: -\nРайон: -"
+#         response = requests.get(data_for_bot.get('photo'))
+#
+#         photo = types.InputFile.from_bytes(response.content, filename='photo.jpg')
+#
+#         await bot.send_photo(message, photo, caption=text,reply_markup=markup)
+@dp.message_handler(commands=['get'])
+async def process_start_command(message: types.Message):
+    for i in pars('https://www.imovirtual.com/arrendar/'):
+        data_for_bot = pars_exact_flat(i)
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(InlineKeyboardButton("Подробнее", url=i))
+        photo = data_for_bot.get('photo')
+        text = f"{data_for_bot.get('name')}\nТип: {data_for_bot.get('Condição:')}\nКомнаты: {data_for_bot.get('Tipologia:')}\nПлощадь: {data_for_bot.get('Área útil (m²):')}\nСтоимость: {data_for_bot.get('price')}\nГород: -\nРайон: -"
+        await bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
+        await asyncio.sleep(1)
 
 
 if __name__ == '__main__':
