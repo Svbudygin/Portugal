@@ -37,3 +37,12 @@ class Form(StatesGroup):
     price_max_state = State()
     from_date_state = State()
     to_date_state = State()
+
+def get_link(topologia:list, price_from, price_to):
+    price = f'?search%5Bfilter_float_price%3Afrom%5D={price_from}&search%5Bfilter_float_price%3Ato%5D={price_to}'
+    f'?search%5Bfilter_float_price%3Ato%5D={price_to}'
+    f'?search%5Bfilter_float_price%3Afrom%5D={price_from}'
+    topologia = f'?'+'&search%5Bfilter_enum_rooms_num%5D%5B2%5D='.join(topologia)[1:]
+    '?search%5Border%5D=created_at_first%3Adesc' # сортировка по дате анонса
+    print(topologia)
+get_link(['1','2','3'],4,45)

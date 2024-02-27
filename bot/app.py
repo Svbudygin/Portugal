@@ -36,7 +36,7 @@ async def area(message: types.Message, state: FSMContext):
     area = message.text
     async with state.proxy() as data:
         data['area'] = area
-    message = await message.answer(f"🏡 Укажите тип квартиры: ⛺")
+    message = await message.answer(f"🏡 Укажите тип квартиры (T0 - T10, через пробел, начиная с T): ⛺\nНапример: T4 T5 T6")
     await add_del_message(message)
     await Form.type_state.set()
 
@@ -147,21 +147,10 @@ async def callback_calendar_to(call, state: FSMContext):
         await del_messages(call.message.chat.id)
         await state.finish()
 
-# @dp.message_handler(commands=['get'])
-# async def process_start_command(message: types.Message):
-#     for i in pars('https://www.imovirtual.com/arrendar/'):
-#         data_for_bot = pars_exact_flat(i)
-#         markup = InlineKeyboardMarkup(row_width=1)
-#         markup.add(InlineKeyboardButton("Подробнее", url=i))
-#         text=f"{data_for_bot.get('name')}\nТип: {data_for_bot.get('Condição')}\nКомнаты: {data_for_bot.get('Condição')}\nПлощадь: {data_for_bot.get('Área útil (m²)')}\nСтоимость: {data_for_bot.get('price')}\nГород: -\nРайон: -"
-#         response = requests.get(data_for_bot.get('photo'))
-#
-#         photo = types.InputFile.from_bytes(response.content, filename='photo.jpg')
-#
-#         await bot.send_photo(message, photo, caption=text,reply_markup=markup)
+
 @dp.message_handler(commands=['get'])
 async def process_start_command(message: types.Message):
-    for i in pars('https://www.imovirtual.com/arrendar/'):
+    for i in pars('https://www.imovirtual.com/arrendar/apartamento/'):
         data_for_bot = pars_exact_flat(i)
         markup = InlineKeyboardMarkup(row_width=1)
         markup.add(InlineKeyboardButton("Подробнее", url=i))
