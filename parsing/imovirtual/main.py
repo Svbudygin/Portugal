@@ -1,9 +1,10 @@
 import json
+import time
 
 from bs4 import BeautifulSoup
 import requests
 
-from config import cookies, headers
+from Portugal.bot.config import cookies, headers
 
 
 def pars_exact_flat(url: str) -> dict:
@@ -34,20 +35,43 @@ def pars_exact_flat(url: str) -> dict:
     return data_for_bot
 
 
-def pars(URL):
-    # URL = 'https://www.imovirtual.com/arrendar/'
+def pars(*args):
+    param = args
+    city = param[2]
+    type = map(lambda x: x[1], param[4].split())
+    print(type)
+    print(city)
+    data = []
+    for i in range(1, 3):
+        for e in type:
+            URL = f'https://www.imovirtual.com/arrendar/' + str(
+                city).lower() + f'/?search%5Bfilter_enum_rooms_num%5D%5B0%5D={e} &page={i}'
 
-    response = requests.get(URL, cookies=cookies, headers=headers)
+            response = requests.get(URL, cookies=cookies, headers=headers)
 
-    html = BeautifulSoup(response.text, 'lxml')
-    list_with_all = list(map(lambda x: x.get('data-url'),
-                             html.find('div', class_="row section-listing__row").find('div',
-                                                                                      class_="col-md-content section-listing__row-content").find_all(
-                                 'article')))
-    return list_with_all
+            html = BeautifulSoup(response.text, 'lxml')
+            list_with_all = list(map(lambda x: x.get('data-url'),
+                                     html.find('div', class_="row section-listing__row").find('div',
+                                                                                              class_="col-md-content section-listing__row-content").find_all(
+                                         'article')))
+            print(list_with_all)
+            data += list_with_all
+    return data
+
 
 
 if __name__ == "__main__":
     pass
 # pars_exact_flat('https://www.imovirtual.com/pt/anuncio/arrendamento-de-loja-escritorios-em-setubal-ID1dUzP.html#5381dae35a')
-pars_exact_flat('https://www.imovirtual.com/pt/anuncio/arrendamento-espaco-comercial-ID1e0q0.html#5381dae35a')
+# arr1 = pars()
+# arr1 = set(arr1)
+# time.sleep(1800)
+# arr2 = pars()
+# time.sleep(1800)
+# arr3 = pars()
+# arr2 = set(arr2)
+# arr3 = set(arr3)
+# if len((arr1 | arr2 | arr3) - (arr1 & arr2 & arr3)) > 0:
+#     print((arr1 | arr2 | arr3) - (arr1 & arr2 & arr3))
+# else:
+#     print('LOX')
