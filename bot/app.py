@@ -1,4 +1,4 @@
-from Portugal.parsing.imovirtual.main import pars_exact_flat, pars
+from parsing.imovirtual.main import pars_exact_flat, pars
 from utils import *
 
 
@@ -37,7 +37,7 @@ async def area(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['area'] = area
     message = await message.answer(
-        f"🏡 Укажите тип квартиры (T0 - T10, через пробел, начиная с T): ⛺\nНапример: T4 T5 T6")
+        f"🏡 Укажите тип квартиры (T0 - T10, только цифры через пробел через пробел): ⛺\nНапример:  4 6 10")
     await add_del_message(message)
     await Form.type_state.set()
 
@@ -141,14 +141,16 @@ async def callback_calendar_to(call, state: FSMContext):
             to_date = data['to_date']
             city = data['city']
             area = data['area']
-            type = data["type"]
+            type_topologia = data["type"]
             min_price = data['min_price']
             max_price = data['max_price']
-        hoba1 = set(pars(from_date, to_date, city, area, type, min_price, max_price))
-        await asyncio.sleep(3600)
-        hoba2 = set(pars(from_date, to_date, city, area, type, min_price, max_price))
-        res = (hoba1 | hoba2) - (hoba1 & hoba2)
-        for i in res:
+        await del_messages(call.message.chat.id)
+        hoba1 = set(pars(from_date, to_date, city, area, type_topologia, min_price, max_price))
+        # await asyncio.sleep(3600)
+        # hoba2 = set(pars(from_date, to_date, city, area, type, min_price, max_price))
+        # res = (hoba1 | hoba2) - (hoba1 & hoba2)
+        # for i in res:
+        for i in hoba1:
             data_for_bot = pars_exact_flat(i)
             markup = InlineKeyboardMarkup(row_width=1)
             markup.add(InlineKeyboardButton("Подробнее", url=i))
@@ -156,20 +158,20 @@ async def callback_calendar_to(call, state: FSMContext):
             text = f"{data_for_bot.get('name')}\nТип: {data_for_bot.get('Condição:')}\nКомнаты: {data_for_bot.get('Tipologia:')}\nПлощадь: {data_for_bot.get('Área útil (m²):')}\nСтоимость: {data_for_bot.get('price')}\nГород: -\nРайон: -"
             await bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
             await asyncio.sleep(1)
-        await del_messages(call.message.chat.id)
+
         await state.finish()
 
 
-@dp.message_handler(commands=['get'])
-async def process_get_command(message: types.Message):
-    for i in pars('https://www.imovirtual.com/arrendar/'):
-        data_for_bot = pars_exact_flat(i)
-        markup = InlineKeyboardMarkup(row_width=1)
-        markup.add(InlineKeyboardButton("Подробнее", url=i))
-        photo = data_for_bot.get('photo')
-        text = f"{data_for_bot.get('name')}\nТип: {data_for_bot.get('Condição:')}\nКомнаты: {data_for_bot.get('Tipologia:')}\nПлощадь: {data_for_bot.get('Área útil (m²):')}\nСтоимость: {data_for_bot.get('price')}\nГород: -\nРайон: -"
-        await bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
-        await asyncio.sleep(1)
+# @dp.message_handler(commands=['get'])
+# async def process_get_command(message: types.Message):
+#     for i in pars('https://www.imovirtual.com/arrendar/'):
+#         data_for_bot = pars_exact_flat(i)
+#         markup = InlineKeyboardMarkup(row_width=1)
+#         markup.add(InlineKeyboardButton("Подробнее", url=i))
+#         photo = data_for_bot.get('photo')
+#         text = f"{data_for_bot.get('name')}\nТип: {data_for_bot.get('Condição:')}\nКомнаты: {data_for_bot.get('Tipologia:')}\nПлощадь: {data_for_bot.get('Área útil (m²):')}\nСтоимость: {data_for_bot.get('price')}\nГород: -\nРайон: -"
+#         await bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
+#         await asyncio.sleep(1)
 
 
 if __name__ == '__main__':
