@@ -43,8 +43,10 @@ def pars(from_date, to_date, city, area, type_topologia, min_price, max_price):
         except Exception:
             pass
     data = []
-    for i in range(1, 3):
-        URL = f'https://www.imovirtual.com/arrendar/avenidas-novas-lisboa/{get_link( topologia, min_price, max_price)}{get_link_area(city, area)}&page={i}'
+    for i in range(1, 4):
+        link, city_name = get_link_area(city, area)
+        # URL = f'https://www.imovirtual.com/arrendar/{city_name}/{get_link( topologia, min_price, max_price)}{link}&page={i}'
+        URL = f'https://www.imovirtual.com/arrendar/{get_link(topologia, min_price, max_price)}{link}&page={i}'
         print(URL)
         response = requests.get(URL, cookies=cookies, headers=headers)
         html = BeautifulSoup(response.text, 'lxml')
@@ -56,33 +58,45 @@ def pars(from_date, to_date, city, area, type_topologia, min_price, max_price):
             data.append(i)
     print("return data")
     return data
-'https://www.imovirtual.com/arrendar/avenidas-novas-lisboa/?search%5Bfilter_float_price%3Afrom%5D=100&search%5Bfilter_float_price%3Ato%5D=3000&search%5Bfilter_enum_rooms_num%5D%5B2%5D=4&search%5Bfilter_enum_rooms_num%5D%5B2%5D=5&search%5Border%5D=created_at_first%3Adesc&search%5Bregion_id%5D=1&search%5Bsubregion_id%5D=3&search%5Bcity_id%5D=None&page=1'
-'https://www.imovirtual.com/arrendar/avenidas-novas-lisboa/?search%5Bfilter_float_price%3Afrom%5D=100&search%5Bfilter_float_price%3Ato%5D=2000&search%5Bfilter_enum_rooms_num%5D%5B0%5D=2&search%5Border%5D=created_at_first%3Adesc&search%5Bregion_id%5D=11&search%5Bsubregion_id%5D=153&search%5Bcity_id%5D=11540537'
+
+
+'https://www.imovirtual.com/arrendar/lisboa/?search%5Bfilter_float_price%3Afrom%5D=1234&search%5Bfilter_enum_rooms_num%5D%5B0%5D=1&search%5Bfilter_enum_rooms_num%5D%5B1%5D=2&search%5Bregion_id%5D=11'
+'https://www.imovirtual.com/arrendar/&locations%5B0%5D%5Bregion_id%5D=11&locations%5B0%5D%5Bsubregion_id%5D=0&locations%5B1%5D%5Bregion_id%5D=8'
+'https://www.imovirtual.com/arrendar/lisboa/&search%5Border%5D=created_at_first%3Adesc&search%5Bregion_id%5D=11&search%5Bsubregion_id%5D=148&search%5Bcity_id%5D=11535378&page=1'
+
+
 def get_link(topologia: list, price_from, price_to):
     ful_url = ''
     price = ''
+    sortirovka=''
     if price_from != '-':
         price += f'search%5Bfilter_float_price%3Afrom%5D={str(price_from)}'
     if price_to != '-':
         price += f'&search%5Bfilter_float_price%3Ato%5D={str(price_to)}'
     topologia = '&search%5Bfilter_enum_rooms_num%5D%5B2%5D='.join(topologia)[1:]
-    sortirovka = '&search%5Border%5D=created_at_first%3Adesc'  # сортировка по дате анонса
+    # sortirovka = '&search%5Border%5D=created_at_first%3Adesc'  # сортировка по дате анонса
     ful_url += '?' + price + topologia + sortirovka
     return ful_url
 
+
 def get_link_area(city, area):
-    link = ''
+    link = city_name = ''
     URL = f'https://www.imovirtual.com/ajax/geo6/autosuggest/?data={city}%20{area}&lowPriorityStreetsSearch=true&levels%5B0%5D=REGION&levels%5B1%5D=SUBREGION&levels%5B2%5D=CITY&levels%5B3%5D=DISTRICT&levels%5B4%5D=STREET&withParents=true'
     response = requests.get(URL, cookies=cookies, headers=headers)
     if response.status_code == 200:
         data = response.json()
         try:
-            region_id, subregion_id, city_id = data[0].get('region_id'), data[0].get('subregion_id'), data[0].get('city_id')
-            link = f'&search%5Bregion_id%5D={region_id}&search%5Bsubregion_id%5D={subregion_id}&search%5Bcity_id%5D={city_id}'
+            city_name = data[0].get('parents')[0].get('name').lower()
+            print(city_name)
+            region_id, subregion_id, city_id = data[0].get('region_id'), data[0].get('subregion_id'), data[0].get(
+                'city_id')
+            # link = f'&search%5Bregion_id%5D={region_id}&search%5Bsubregion_id%5D={subregion_id}&search%5Bcity_id%5D={city_id}'
+            link = f'&locations%5B0%5D%5Bregion_id%5D={region_id}&locations%5B0%5D%5Bsubregion_id%5D={subregion_id}&locations%5B1%5D%5Bregion_id%5D={city_id}'
         except IndexError:
             pass
-    return link
-
+    return link, city_name
+'https://www.imovirtual.com/arrendar/?search%5Bfilter_enum_rooms_num%5D%5B2%5D=10&locations%5B0%5D%5Bregion_id%5D=11&locations%5B0%5D%5Bsubregion_id%5D=163&locations%5B1%5D%5Bregion_id%5D=11550728'
+'https://www.imovirtual.com/arrendar/?search%5Bfilter_enum_rooms_num%5D%5B0%5D=10&locations%5B0%5D%5Bregion_id%5D=11&locations%5B0%5D%5Bsubregion_id%5D=163&locations%5B1%5D%5Bregion_id%5D=11550728'
 if __name__ == "__main__":
     pass
 # arr1 = pars()

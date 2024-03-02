@@ -144,6 +144,7 @@ async def callback_calendar_to(call, state: FSMContext):
             type_topologia = data["type"]
             min_price = data['min_price']
             max_price = data['max_price']
+        await state.finish()
         await del_messages(call.message.chat.id)
         hoba1 = set(pars(from_date, to_date, city, area, type_topologia, min_price, max_price))
         # await asyncio.sleep(3600)
@@ -159,7 +160,7 @@ async def callback_calendar_to(call, state: FSMContext):
             await bot.send_photo(message.chat.id, photo, caption=text, reply_markup=markup)
             await asyncio.sleep(1)
 
-        await state.finish()
+
 
 
 # @dp.message_handler(commands=['get'])
