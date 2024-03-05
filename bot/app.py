@@ -151,6 +151,9 @@ async def callback_calendar_to(call, state: FSMContext):
         # hoba2 = set(pars(from_date, to_date, city, area, type, min_price, max_price))
         # res = (hoba1 | hoba2) - (hoba1 & hoba2)
         # for i in res:
+        if not hoba1:
+            await call.message.answer(
+                f"По вашему запросу ничего не найдено!")
         for i in hoba1:
             data_for_bot = pars_exact_flat(i)
             markup = InlineKeyboardMarkup(row_width=1)
